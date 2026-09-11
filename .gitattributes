@@ -1,0 +1,6 @@
+# Force LF endings for anything that gets run as a script on Linux -- a
+# CRLF-corrupted shebang line breaks `bash serve_vllm.sh` on the actual
+# GPU box even though it looks fine when edited on Windows.
+*.sh text eol=lf
+*.py text eol=lf
+*.ipynb text eol=lf

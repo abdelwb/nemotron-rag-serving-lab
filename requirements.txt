@@ -1,0 +1,13 @@
+# Convenience umbrella for local (CPU-only) linting/testing of this repo.
+# Each module also has its own requirements.txt for the packages it actually
+# needs at run time (finetune/, rag_agent/, perf_modeling/) -- install those
+# separately on whatever machine runs that stage; vLLM and SGLang additionally
+# need a Linux host with an NVIDIA GPU, see docs/architecture.md.
+
+pytest>=8.0
+ruff>=0.5
+pandas>=2.2
+numpy>=1.26
+scikit-learn>=1.4
+joblib>=1.4
+openai>=1.30

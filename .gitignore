@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Env / secrets
+.env
+*.token
+
+# Model / data artifacts (large, regenerate via notebooks/scripts)
+*.safetensors
+*.bin
+*.gguf
+adapter_model/
+checkpoints/
+faiss_index/
+*.faiss
+*.pkl
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
