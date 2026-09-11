@@ -55,7 +55,7 @@ def build_pipeline() -> Pipeline:
 
 def train_and_evaluate():
     texts = [t for t, _ in EXAMPLES]
-    labels = [l for _, l in EXAMPLES]
+    labels = [label for _, label in EXAMPLES]
 
     x_train, x_test, y_train, y_test = train_test_split(
         texts, labels, test_size=0.3, random_state=42, stratify=labels
