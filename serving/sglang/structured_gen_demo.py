@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Structured/constrained generation demo using SGLang's native frontend.
 
 This demonstrates the piece vLLM doesn't do the same way: SGLang's

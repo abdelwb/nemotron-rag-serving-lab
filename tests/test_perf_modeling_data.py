@@ -1,10 +1,9 @@
 """CPU-only tests for perf_modeling/data.py using synthetic benchmark rows --
 no dependency on a real vLLM/SGLang run.
 """
+import data as perf_data
 import pandas as pd
 import pytest
-
-import data as perf_data
 
 
 @pytest.fixture

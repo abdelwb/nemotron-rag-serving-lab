@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Retrieval-quality evaluation for the FAISS index built by ingest.py.
 
 Uses a small hand-labeled set of (query, relevant-chunk substrings) pairs

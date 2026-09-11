@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Side-by-side comparison of the sklearn and TensorFlow throughput/latency models.
 
 Run after both train_sklearn_regressor.py and train_tf_model.py.
@@ -12,10 +11,9 @@ from pathlib import Path
 import joblib
 import pandas as pd
 import tensorflow as tf
+from data import TARGET_COLUMNS, encode_features, load_bench_data, require_enough_data
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
-
-from data import TARGET_COLUMNS, encode_features, load_bench_data, require_enough_data
 
 RESULTS_DIR = Path(__file__).resolve().parent / "results"
 

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Throughput/latency predictor: a small TensorFlow/Keras MLP.
 
     python train_tf_model.py
@@ -12,11 +11,10 @@ from pathlib import Path
 
 import joblib
 import tensorflow as tf
+from data import TARGET_COLUMNS, encode_features, load_bench_data, require_enough_data
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-
-from data import TARGET_COLUMNS, encode_features, load_bench_data, require_enough_data
 
 OUT_DIR = Path(__file__).resolve().parent / "results"
 

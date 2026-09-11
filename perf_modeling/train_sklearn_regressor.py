@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Baseline throughput/latency predictor: scikit-learn GradientBoostingRegressor.
 
     python train_sklearn_regressor.py
@@ -10,11 +9,10 @@ saves both models to perf_modeling/results/ for compare_models.py.
 from pathlib import Path
 
 import joblib
+from data import TARGET_COLUMNS, encode_features, load_bench_data, require_enough_data
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
-
-from data import TARGET_COLUMNS, encode_features, load_bench_data, require_enough_data
 
 OUT_DIR = Path(__file__).resolve().parent / "results"
 

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Regenerate benchmark_report.md's comparison table from vllm_bench.csv and
 sglang_bench.csv.
 

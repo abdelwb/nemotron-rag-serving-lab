@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Build a local FAISS index over a directory of documents.
 
     python ingest.py --docs-dir ../docs --index-dir ./faiss_index

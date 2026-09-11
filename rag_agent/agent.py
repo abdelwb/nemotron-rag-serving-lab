@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """LangChain RAG + tool-calling agent, served by either vLLM or SGLang.
 
 The same agent code runs unmodified against either engine -- just point
@@ -18,7 +17,6 @@ from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_openai import ChatOpenAI
-
 from router_baseline_sklearn import classify
 
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
@@ -40,7 +38,7 @@ def calculator(expression: str) -> str:
     if not set(expression) <= allowed:
         return "Error: expression contains disallowed characters."
     try:
-        return str(eval(expression, {"__builtins__": {}}, {}))  # noqa: S307
+        return str(eval(expression, {"__builtins__": {}}, {}))
     except Exception as exc:  # noqa: BLE001 - surfaced back to the LLM, not raised
         return f"Error: {exc}"
 

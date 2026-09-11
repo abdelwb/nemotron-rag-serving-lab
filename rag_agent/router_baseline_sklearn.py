@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """A cheap scikit-learn gate in front of the LLM/retrieval path.
 
 Not every query needs retrieval, and not every query even needs the LLM --
