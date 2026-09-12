@@ -25,5 +25,5 @@ SOFTWARE.
 This license covers the original code in this repository only. The
 `nvidia/Nemotron-Mini-4B-Instruct` model, the `nvidia/Daring-Anteater`
 dataset, and any other third-party models/datasets referenced by this
-project remain under their own respective licenses — see their Hugging Face
+project remain under their own respective licenses - see their Hugging Face
 model/dataset cards.

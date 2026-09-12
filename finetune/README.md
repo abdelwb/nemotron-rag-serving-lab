@@ -4,8 +4,8 @@ LoRA supervised fine-tune of [`nvidia/Nemotron-Mini-4B-Instruct`](https://huggin
 
 Run in order, in Google Colab:
 
-1. **[`01_prepare_dataset.ipynb`](01_prepare_dataset.ipynb)** — CPU runtime is fine. Downloads and formats the dataset, saves a train/eval split.
-2. **[`02_lora_finetune.ipynb`](02_lora_finetune.ipynb)** — switch to a T4 GPU runtime. Trains the adapter and pushes it to your own HF namespace.
+1. **[`01_prepare_dataset.ipynb`](01_prepare_dataset.ipynb)** - CPU runtime is fine. Downloads and formats the dataset, saves a train/eval split.
+2. **[`02_lora_finetune.ipynb`](02_lora_finetune.ipynb)** - switch to a T4 GPU runtime. Trains the adapter and pushes it to your own HF namespace.
 
 Both notebooks call `huggingface_hub.login()`, which needs a free account and an access token from [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens) (read scope for notebook 1, write scope for notebook 2, since it pushes the trained adapter). If `Nemotron-Mini-4B-Instruct` is gated on the Hub, accept its terms on the model page first.
 

@@ -7,7 +7,7 @@
 #
 # Usage:
 #   pip install vllm
-#   HF_LORA_REPO=<your-hf-username>/nemotron-mini-4b-daring-anteater-lora bash serve_vllm.sh
+#   HF_LORA_REPO=abdelwb/nemotron-mini-4b-daring-anteater-lora bash serve_vllm.sh
 
 set -euo pipefail
 

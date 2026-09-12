@@ -7,7 +7,7 @@
 #
 # Usage:
 #   pip install "sglang[all]"
-#   HF_LORA_REPO=<your-hf-username>/nemotron-mini-4b-daring-anteater-lora bash serve_sglang.sh
+#   HF_LORA_REPO=abdelwb/nemotron-mini-4b-daring-anteater-lora bash serve_sglang.sh
 
 set -euo pipefail
 
