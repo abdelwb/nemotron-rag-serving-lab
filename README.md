@@ -20,6 +20,11 @@ Built to line up, piece by piece, with this requirement:
 | **TensorFlow** | A small Keras MLP in [`perf_modeling/train_tf_model.py`](perf_modeling/train_tf_model.py) that predicts serving throughput/latency from the benchmark data |
 | **Scikit-learn** | Two roles: (1) a gradient-boosted baseline in [`perf_modeling/train_sklearn_regressor.py`](perf_modeling/train_sklearn_regressor.py) compared against the TensorFlow model, and (2) a TF-IDF + logistic-regression query router in [`rag_agent/router_baseline_sklearn.py`](rag_agent/router_baseline_sklearn.py) that decides when a query even needs the LLM/retrieval path at all |
 
+## Status
+
+- ✅ **Fine-tuned** — LoRA adapter trained and pushed: [`abdelwb/nemotron-mini-4b-daring-anteater-lora`](https://huggingface.co/abdelwb/nemotron-mini-4b-daring-anteater-lora) (800 examples, 1 epoch, train loss 1.28→1.15, eval loss 1.29 — a small run sized to finish on a free Colab T4; see [`docs/architecture.md`](docs/architecture.md) for why and how to scale it up with more GPU budget).
+- ⬜ **Serve + benchmark** (vLLM vs. SGLang), **RAG agent**, **performance models** — code is complete and tested; not yet run end-to-end. See [Quickstart](#quickstart) below.
+
 ## Architecture
 
 ```mermaid
@@ -75,7 +80,7 @@ nemotron-rag-serving-lab/
 
 Everything that needs a GPU is a Colab notebook — open it, run it under your own Google + Hugging Face login, the outputs land back in this repo.
 
-1. **Fine-tune** — open [`finetune/02_lora_finetune.ipynb`](finetune/02_lora_finetune.ipynb) in Colab (Runtime → T4 GPU). It logs into the HF Hub (`huggingface_hub.login()`, needs a free HF account + access token — [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)), trains a LoRA adapter, and pushes it to your own HF namespace.
+1. **Fine-tune** — open [`finetune/02_lora_finetune.ipynb`](finetune/02_lora_finetune.ipynb) in Colab (Runtime → T4 GPU). It logs into the HF Hub (`huggingface_hub.login()`, needs a free HF account + access token — [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)), trains a LoRA adapter, and pushes it to your own HF namespace. Already done for this repo's own run — see [Status](#status) — so you can point steps 2-4 straight at [`abdelwb/nemotron-mini-4b-daring-anteater-lora`](https://huggingface.co/abdelwb/nemotron-mini-4b-daring-anteater-lora) instead of re-running this step.
 2. **Serve + benchmark** — on a Linux box with an NVIDIA GPU (a Colab/RunPod/Lambda instance, or your own): `pip install vllm` and `pip install sglang[all]`, then run `serving/vllm/serve_vllm.sh` and `serving/sglang/serve_sglang.sh` against your adapter, and `bench_vllm.py` / `bench_sglang.py` to populate `serving/results/*.csv`.
 3. **RAG agent** — `pip install -r rag_agent/requirements.txt`, point `rag_agent/agent.py` at whichever server is running (`--base-url http://localhost:8000/v1`), and ask it questions over the docs you index with `ingest.py`.
 4. **Performance models** — once you have real rows in `serving/results/`, `python perf_modeling/train_sklearn_regressor.py` and `python perf_modeling/train_tf_model.py`, then `python perf_modeling/compare_models.py` to see both models' predictions side by side.
