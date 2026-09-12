@@ -24,8 +24,19 @@ Built to line up, piece by piece, with this requirement:
 
 ## Status
 
-- ✅ **Fine-tuned** - LoRA adapter trained and pushed: [`abdelwb/nemotron-mini-4b-daring-anteater-lora`](https://huggingface.co/abdelwb/nemotron-mini-4b-daring-anteater-lora) (800 examples, 1 epoch, train loss 1.28→1.15, eval loss 1.29 - a small run sized to finish on a free Colab T4; see [`docs/architecture.md`](docs/architecture.md) for why and how to scale it up with more GPU budget).
+- ✅ **Fine-tuned** - LoRA adapter trained and pushed to the Hub: [`abdelwb/nemotron-mini-4b-daring-anteater-lora`](https://huggingface.co/abdelwb/nemotron-mini-4b-daring-anteater-lora). Full model card, training details, and a load-it-yourself snippet are on that Hub page; the table below is the same numbers for quick reference here.
 - ⬜ **Serve + benchmark** (vLLM vs. SGLang), **RAG agent**, **performance models** - code is complete and tested; not yet run end-to-end. See [Quickstart](#quickstart) below.
+
+| | |
+|---|---|
+| Base model | `nvidia/Nemotron-Mini-4B-Instruct` |
+| Dataset | `nvidia/Daring-Anteater`, 800-example subset |
+| LoRA rank / alpha / dropout | 16 / 32 / 0.05 |
+| Target modules | q_proj, k_proj, v_proj, o_proj |
+| Quantization | 4-bit NF4, double quantization (`bitsandbytes`) |
+| Epochs / effective batch size / sequence length | 1 / 16 / 256 tokens |
+| Hardware | 1x free-tier Colab T4 |
+| Train loss / eval loss | 1.28 to 1.15 / 1.29 |
 
 ## Architecture
 
