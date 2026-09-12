@@ -6,17 +6,17 @@ This doc is the detailed companion to the top-level [README](../README.md): exac
 
 **Base model:** [`nvidia/Nemotron-Mini-4B-Instruct`](https://huggingface.co/nvidia/Nemotron-Mini-4B-Instruct) — an NVIDIA-published, distilled/pruned 4B model small enough to fine-tune on a free Colab T4 (16GB).
 
-**Dataset:** [`nvidia/Daring-Anteater`](https://huggingface.co/datasets/nvidia/Daring-Anteater) — NVIDIA's own multi-turn instruction-tuning dataset. The notebook uses a stratified subset (a few thousand examples) rather than the full set, to keep a T4 run under ~1 hour.
+**Dataset:** [`nvidia/Daring-Anteater`](https://huggingface.co/datasets/nvidia/Daring-Anteater) — NVIDIA's own multi-turn instruction-tuning dataset. The notebook uses a small stratified subset (800 examples by default) rather than the full set, sized to actually finish in one free Colab session — see the sizing note below.
 
-**Method:** supervised fine-tuning with LoRA via `peft` (rank 16, alpha 32, targeting the attention projection layers), 4-bit quantized base weights via `bitsandbytes` so the whole thing fits on 16GB, `trl.SFTTrainer` driving the loop, `accelerate` under the hood.
+**Method:** supervised fine-tuning with LoRA via `peft` (rank 16, alpha 32, targeting the attention projection layers), 4-bit quantized base weights via `bitsandbytes` so the whole thing fits on 16GB, gradient checkpointing to keep activation memory down, `trl.SFTTrainer` driving the loop, `accelerate` under the hood.
 
 Steps (see [`finetune/01_prepare_dataset.ipynb`](../finetune/01_prepare_dataset.ipynb) and [`finetune/02_lora_finetune.ipynb`](../finetune/02_lora_finetune.ipynb)):
 
 1. Open both notebooks in Google Colab, select **Runtime → Change runtime type → T4 GPU**.
 2. Run `huggingface_hub.login()` — needs a free Hugging Face account and a [write-scoped access token](https://huggingface.co/settings/tokens). Accept `Nemotron-Mini-4B-Instruct`'s model-card terms on the Hub first if it's gated.
 3. `01_prepare_dataset.ipynb` downloads `nvidia/Daring-Anteater`, filters/formats it into the model's chat template, and saves a train/eval split.
-4. `02_lora_finetune.ipynb` loads the base model 4-bit, attaches a LoRA adapter, trains for ~1-2 epochs over the subset, evaluates loss on the held-out split, then **pushes just the adapter** (a few hundred MB) to your own `<your-hf-username>/nemotron-mini-4b-daring-anteater-lora` repo on the Hub.
-5. Expected wall-clock on a T4: roughly 30-60 minutes depending on subset size — the notebook prints an ETA after the first 20 steps so you can tell early if it needs shrinking further.
+4. `02_lora_finetune.ipynb` loads the base model 4-bit, attaches a LoRA adapter, trains for 1 epoch over the subset, evaluates loss on the held-out split, then **pushes just the adapter** (a few hundred MB) to your own `<your-hf-username>/nemotron-mini-4b-daring-anteater-lora` repo on the Hub.
+5. **Sizing / expected wall-clock:** a free T4 running a 4B model in 4-bit with LoRA is genuinely compute-constrained, not just memory-constrained — at `per_device_train_batch_size=1` with gradient checkpointing, a single sequence's forward+backward is on the order of several seconds, so the total run time scales directly with `SUBSET_SIZE` (in notebook 1) × `num_train_epochs` (in notebook 2). The shipped defaults (800 examples, 1 epoch, 256-token sequences, batch size 4) land around 48 optimizer steps — a realistic target for one Colab session. Raise `SUBSET_SIZE` or sequence length only if you have a paid/longer-lived GPU session; the notebook's progress bar shows a live ETA after the first few logged steps so you can catch an unrealistic estimate early.
 
 Only the adapter is pushed, not a merged copy of the base model — this keeps your Hub storage small and is exactly the artifact both vLLM and SGLang can load on top of the base model at serve time.
 
