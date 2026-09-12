@@ -1,6 +1,10 @@
-transformers>=4.44
+# transformers and trl are capped below their next major version: 5.x and
+# 1.x respectively introduced breaking internal changes (see the notes in
+# finetune/02_lora_finetune.ipynb's install cell) relative to what these
+# notebooks are written against.
+transformers>=4.44,<5.0
 peft>=0.12
-trl>=0.9
+trl>=0.9,<1.0
 accelerate>=0.33
 bitsandbytes>=0.43
 datasets>=2.19
